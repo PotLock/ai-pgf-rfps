@@ -8,6 +8,8 @@ import { useActions, useUIState } from 'ai/rsc'
 import { UserMessage } from './stocks/message'
 import { type AI } from '@/lib/chat/actions'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+
 import { IconArrowElbow, IconPlus } from '@/components/ui/icons'
 import {
   Tooltip,
@@ -17,6 +19,8 @@ import {
 import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/navigation'
+
+
 
 export function PromptForm({
   input,
@@ -28,14 +32,36 @@ export function PromptForm({
   const router = useRouter()
   const { formRef, onKeyDown } = useEnterSubmit()
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
+  const uploadRef = React.useRef<HTMLInputElement>(null)
   const { submitUserMessage } = useActions()
   const [_, setMessages] = useUIState<typeof AI>()
+  const [fileContent, setFileContent] = React.useState('');
 
   React.useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus()
     }
   }, [])
+
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onload = (event: any) => {
+        setFileContent(event.target.result);
+        setInput(event.target.result)
+      };
+      reader.onerror = (event: any) => {
+        console.error('File could not be read! Code ' + event.target.error.code);
+      };
+      reader.readAsText(file);
+    } else {
+      console.error('No file selected');
+    }
+  };
+
 
   return (
     <form
@@ -74,13 +100,15 @@ export function PromptForm({
               size="icon"
               className="absolute left-0 top-[14px] size-8 rounded-full bg-background p-0 sm:left-4"
               onClick={() => {
-                router.push('/new')
+                uploadRef.current?.click()
               }}
             >
+              
               <IconPlus />
               <span className="sr-only">New Chat</span>
             </Button>
           </TooltipTrigger>
+          <Input type='file' className='hidden' onChange={handleFileChange} ref={uploadRef} />
           <TooltipContent>New Chat</TooltipContent>
         </Tooltip>
         <Textarea
