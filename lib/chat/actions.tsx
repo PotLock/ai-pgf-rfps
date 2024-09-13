@@ -407,28 +407,12 @@ export const getUIStateFromAIState = (aiState: Chat) => {
       display:
         message.role === 'tool' ? (
           message.content.map(tool => {
-            return tool.toolName === 'listStocks' ? (
+            return tool.toolName === 'addRFP' ? (
               <BotCard>
                 {/* TODO: Infer types based on the tool result*/}
-                {/* @ts-expect-error */}
-                <Stocks props={tool.result} />
+                <AddRFP props={tool.result} />
               </BotCard>
-            ) : tool.toolName === 'showStockPrice' ? (
-              <BotCard>
-                {/* @ts-expect-error */}
-                <Stock props={tool.result} />
-              </BotCard>
-            ) : tool.toolName === 'showStockPurchase' ? (
-              <BotCard>
-                {/* @ts-expect-error */}
-                <Purchase props={tool.result} />
-              </BotCard>
-            ) : tool.toolName === 'getEvents' ? (
-              <BotCard>
-                {/* @ts-expect-error */}
-                <Events props={tool.result} />
-              </BotCard>
-            ) : null
+            )   : null
           })
         ) : message.role === 'user' ? (
           <UserMessage>{message.content as string}</UserMessage>
