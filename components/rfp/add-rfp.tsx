@@ -44,7 +44,11 @@ export const AddRFP = ({ props: { body, label } }: { props: any }) => {
                 >
                     Publish
                 </button>
-                : <button  className="w-full px-4 py-2 mt-6 font-bold bg-green-400 rounded-lg text-zinc-900 hover:bg-green-500" onClick={()=>modal.show()}>Please Login to Publish</button>}
+                : <button
+                    onClick={() => modal.show()}
+                    className="w-full px-4 py-2 mt-6 font-bold bg-green-400 rounded-lg text-zinc-900 hover:bg-green-500" >
+                    Please Login to Publish
+                </button>}
         </div>
     )
 }
