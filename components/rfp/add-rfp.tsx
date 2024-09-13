@@ -37,13 +37,14 @@ export const AddRFP = ({ props: { body, label } }: { props: any }) => {
                 Draft
             </div>
             <Markdown remarkPlugins={[remarkGfm]}>{body}</Markdown>
-            <button
-                onClick={publish}
-                className="w-full px-4 py-2 mt-6 font-bold bg-green-400 rounded-lg text-zinc-900 hover:bg-green-500"
-            >
-                {accountId ? `Publish to RFP` : "Please Login to Post"}
-            </button>
-
+            {accountId ?
+                <button
+                    onClick={publish}
+                    className="w-full px-4 py-2 mt-6 font-bold bg-green-400 rounded-lg text-zinc-900 hover:bg-green-500"
+                >
+                    Publish
+                </button>
+                : <button  className="w-full px-4 py-2 mt-6 font-bold bg-green-400 rounded-lg text-zinc-900 hover:bg-green-500" onClick={()=>modal.show()}>Please Login to Publish</button>}
         </div>
     )
 }
