@@ -105,11 +105,11 @@ export function PromptForm({
             >
               
               <IconPlus />
-              <span className="sr-only">New Chat</span>
+              <span className="sr-only">Upload File</span>
             </Button>
           </TooltipTrigger>
-          <Input type='file' className='hidden' onChange={handleFileChange} ref={uploadRef} />
-          <TooltipContent>New Chat</TooltipContent>
+          <Input type='file' className='hidden' onChange={handleFileChange} ref={uploadRef} accept="text/plain,.md"  />
+          <TooltipContent>Upload File</TooltipContent>
         </Tooltip>
         <Textarea
           ref={inputRef}
