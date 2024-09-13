@@ -28,12 +28,12 @@ export function UserMenu({ user }: UserMenuProps) {
             <div className="flex size-7 shrink-0 select-none items-center justify-center rounded-full bg-muted/50 text-xs font-medium uppercase text-muted-foreground">
               {getUserInitials(user.email).replace('@mail.com','')}
             </div>
-            <span className="ml-2 hidden md:block">{user.email.replace('@mail.com','')}</span>
+            <span className="ml-2 hidden md:block">{ user.email.length > 20 ? `${user.email.replace('@mail.com','').slice(0, 7)}...${user.email.replace('@mail.com','').slice(-7)}` : user.email.replace('@mail.com','')}</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent sideOffset={8} align="start" className="w-fit">
           <DropdownMenuItem className="flex-col items-start">
-            <div className="text-xs text-zinc-500">{user.email}</div>
+            <div className="text-xs text-zinc-500">{ user.email.length > 20 ? `${user.email.replace('@mail.com','').slice(0, 7)}...${user.email.replace('@mail.com','').slice(-7)}` : user.email.replace('@mail.com','')}</div>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <SignOutButton />

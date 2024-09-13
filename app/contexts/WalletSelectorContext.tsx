@@ -57,7 +57,7 @@ export const WalletSelectorContextProvider: React.FC<{
 
   const init = useCallback(async () => {
     const _selector = await setupWalletSelector({
-      network: "mainnet",
+      network: "testnet",
       debug: true,
       modules: [
         setupNightly() as any,
@@ -72,7 +72,7 @@ export const WalletSelectorContextProvider: React.FC<{
       ],
     });
     const _modal = setupModal(_selector, {
-      contractId: "donate.potlock.near",
+      contractId: "forum.potlock.near",
     });
     const state = _selector.store.getState();
     setAccounts(state.accounts);
