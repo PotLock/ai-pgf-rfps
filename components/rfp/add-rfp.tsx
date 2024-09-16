@@ -3,20 +3,22 @@
 import { MemoizedReactMarkdown } from "@/components/markdown";
 import { useWalletSelector } from "@/app/contexts/WalletSelectorContext"
 import { utils } from "near-api-js";
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { CodeBlock } from '@/components/ui/codeblock'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
+import { Button, type ButtonProps } from '@/components/ui/button'
+import { IconSpinner } from '@/components/ui/icons'
 
 export const AddRFP = ({ props: { body, label } }: { props: any }) => {
     const { modal, accountId, selector } = useWalletSelector();
+    const [isLoading, setIsLoading] = useState(false)
     const BOATLOAD_OF_GAS = utils.format.parseNearAmount("0.00000000003")!;
-    useEffect(() => {
 
-    }, [])
     const publish = async () => {
+        setIsLoading(true)
         const wallet = await selector.wallet();
-        wallet.signAndSendTransaction({
+        const outcome :any = await wallet.signAndSendTransaction({
             signerId: accountId!,
             receiverId: "forum.potlock.testnet",
             actions: [
@@ -31,11 +33,16 @@ export const AddRFP = ({ props: { body, label } }: { props: any }) => {
                 },
 
             ],
-        })
+        }).then((nextMessages: any) => {
+            setIsLoading(false)
+        }).catch((err) => {
+            setIsLoading(false)
+        });
+    
     }
     return (
 
-        <div className="flex-1 px-1 ml-4 space-y-2 overflow-hidden">
+        <>
             <MemoizedReactMarkdown
                 className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
                 remarkPlugins={[remarkGfm, remarkMath]}
@@ -77,19 +84,20 @@ export const AddRFP = ({ props: { body, label } }: { props: any }) => {
             >
                 {body}
             </MemoizedReactMarkdown>
-            {accountId ?
-                <button
-                    onClick={publish}
-                    className="w-full px-4 py-2 mt-6 font-bold bg-green-400 rounded-lg text-zinc-900 hover:bg-green-500"
-                >
-                    Publish
-                </button>
-                : <button
-                    onClick={() => modal.show()}
-                    className="w-full px-4 py-2 mt-6 font-bold  bg-background transition-opacity rounded-lg text-zinc-900 hover:text-accent-foreground" >
-                    Please Login to Publish
-                </button>}
-        </div>
+            <div className=" pt-4">
+                {accountId ?
+                    <Button
+                        disabled={isLoading}
+                        onClick={publish}
+                        className="w-full"
+                    >  {isLoading ? <><IconSpinner className="mr-2 animate-spin" />Waiting for user response... </> : 'Publish'}   </Button> : <Button
+                        onClick={() => modal.show()}
+                        className="w-full " >
+                        Please Login to Publish
+                    </Button>
+                }
+            </div>
+        </>
 
     )
 }

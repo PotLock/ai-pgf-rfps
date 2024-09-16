@@ -1,7 +1,12 @@
+import { Skeleton } from "@/components/ui/skeleton"
+
 export const AddRfpSkeleton = () => {
     return (
-        <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-4 text-green-400">
-            Creating transaction...
+        <div className="flex flex-col space-y-3">
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-[250px]" />
+          <Skeleton className="h-4 w-[200px]" />
         </div>
+      </div>
     )
 }
