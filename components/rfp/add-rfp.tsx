@@ -17,8 +17,6 @@ export const AddRFP = ({ props: { label, name, summary, body, deadline } }: { pr
     const [isLoading, setIsLoading] = useState(false)
     const BOATLOAD_OF_GAS = utils.format.parseNearAmount("0.00000000003")!;
 
-
-
     const publish = async () => {
         setIsLoading(true)
         const wallet = await selector.wallet();
@@ -56,7 +54,7 @@ export const AddRFP = ({ props: { label, name, summary, body, deadline } }: { pr
             setIsLoading(false)
             toast.success('Publish was successful!')
         }).catch((err) => {
-            toast.error(err)
+            toast.error(err.message)
             setIsLoading(false)
         });
 
