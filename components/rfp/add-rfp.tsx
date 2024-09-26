@@ -20,7 +20,6 @@ export const AddRFP = ({ props: { label, name, summary, body, deadline } }: { pr
     const publish = async () => {
         setIsLoading(true)
         const wallet = await selector.wallet();
-        console.log(label, name, summary, body, deadline)
         await wallet.signAndSendTransaction({
             signerId: accountId!,
             receiverId: "forum.potlock.testnet",
