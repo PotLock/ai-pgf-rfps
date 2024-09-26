@@ -10,17 +10,17 @@ import remarkMath from 'remark-math'
 import { Button, type ButtonProps } from '@/components/ui/button'
 import { IconSpinner } from '@/components/ui/icons'
 import { toast } from 'sonner'
-
+import Link from 'next/link'
 
 export const AddRFP = ({ props: { label, name, summary, body, deadline } }: { props: any }) => {
-    const { modal, accountId, selector } = useWalletSelector();
+    const { accountId, selector } = useWalletSelector();
     const [isLoading, setIsLoading] = useState(false)
     const BOATLOAD_OF_GAS = utils.format.parseNearAmount("0.00000000003")!;
 
     const publish = async () => {
         setIsLoading(true)
         const wallet = await selector.wallet();
-         wallet.signAndSendTransaction({
+        wallet.signAndSendTransaction({
             signerId: accountId!,
             receiverId: "forum.potlock.testnet",
             actions: [
@@ -109,11 +109,12 @@ export const AddRFP = ({ props: { label, name, summary, body, deadline } }: { pr
                         disabled={isLoading}
                         onClick={publish}
                         className="w-full"
-                    >  {isLoading ? <><IconSpinner className="mr-2 animate-spin" />Waiting for user response... </> : 'Publish'}   </Button> : <Button
-                        onClick={() => modal.show()}
-                        className="w-full " >
+                    >  {isLoading ? <><IconSpinner className="mr-2 animate-spin" />Waiting for user response... </> : 'Publish'}
+                    </Button> :
+                    <Link href="/login" className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 w-full">
                         Please Login to Publish
-                    </Button>
+                    </Link>
+
                 }
             </div>
         </>

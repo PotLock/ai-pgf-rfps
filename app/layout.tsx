@@ -17,7 +17,7 @@ export const metadata = {
     : undefined,
   title: {
     default: 'AI-PGF',
-    template: `%s - AI-PGF AI Chatbot`
+    template: `%s `
   },
   description: 'AI-PGF: A Proactive Grants Program and Movement to Build towards a Funding AGI',
   icons: {
