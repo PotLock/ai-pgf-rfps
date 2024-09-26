@@ -20,7 +20,7 @@ export const AddRFP = ({ props: { label, name, summary, body, deadline } }: { pr
     const publish = async () => {
         setIsLoading(true)
         const wallet = await selector.wallet();
-        await wallet.signAndSendTransaction({
+         wallet.signAndSendTransaction({
             signerId: accountId!,
             receiverId: "forum.potlock.testnet",
             actions: [
@@ -53,6 +53,7 @@ export const AddRFP = ({ props: { label, name, summary, body, deadline } }: { pr
             setIsLoading(false)
             toast.success('Publish was successful!')
         }).catch((err) => {
+            console.log(err);
             toast.error(err.message)
             setIsLoading(false)
         });
