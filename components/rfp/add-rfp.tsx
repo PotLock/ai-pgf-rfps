@@ -9,6 +9,8 @@ import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import { Button, type ButtonProps } from '@/components/ui/button'
 import { IconSpinner } from '@/components/ui/icons'
+import { toast } from 'sonner'
+
 
 export const AddRFP = ({ props: { label, name, summary, body, deadline } }: { props: any }) => {
     const { modal, accountId, selector } = useWalletSelector();
@@ -52,8 +54,9 @@ export const AddRFP = ({ props: { label, name, summary, body, deadline } }: { pr
             ],
         }).then((nextMessages: any) => {
             setIsLoading(false)
+            toast.success('Publish was successful!')
         }).catch((err) => {
-            console.log("err", err)
+            toast.error(err)
             setIsLoading(false)
         });
 
