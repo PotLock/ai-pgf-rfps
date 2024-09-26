@@ -65,14 +65,14 @@ export const WalletSelectorContextProvider: React.FC<{
         setupHereWallet(),
         setupMeteorWallet(),
         setupBitteWallet({
-          walletUrl: "https://wallet.bitte.ai",
+          walletUrl: "https://testnet.wallet.bitte.ai",
           callbackUrl: process.env.NEXTAUTH_URL,
           deprecated: false,
       }),
       ],
     });
     const _modal = setupModal(_selector, {
-      contractId: "forum.potlock.near",
+      contractId: "forum.potlock.testnet",
     });
     const state = _selector.store.getState();
     setAccounts(state.accounts);

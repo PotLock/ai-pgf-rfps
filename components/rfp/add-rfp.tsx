@@ -10,15 +10,18 @@ import remarkMath from 'remark-math'
 import { Button, type ButtonProps } from '@/components/ui/button'
 import { IconSpinner } from '@/components/ui/icons'
 
-export const AddRFP = ({ props: { body, label } }: { props: any }) => {
+export const AddRFP = ({ props: { label, name, summary, body, deadline } }: { props: any }) => {
     const { modal, accountId, selector } = useWalletSelector();
     const [isLoading, setIsLoading] = useState(false)
     const BOATLOAD_OF_GAS = utils.format.parseNearAmount("0.00000000003")!;
 
+
+
     const publish = async () => {
         setIsLoading(true)
         const wallet = await selector.wallet();
-        const outcome :any = await wallet.signAndSendTransaction({
+        console.log(label, name, summary, body, deadline)
+        await wallet.signAndSendTransaction({
             signerId: accountId!,
             receiverId: "forum.potlock.testnet",
             actions: [
@@ -26,7 +29,21 @@ export const AddRFP = ({ props: { body, label } }: { props: any }) => {
                     type: "FunctionCall",
                     params: {
                         methodName: "add_rfp",
-                        args: { body, label },
+                        args: {
+                            "labels": [
+                                label
+                            ],
+                            "body": {
+                                "rfp_body_version": "V0",
+                                "name": name,
+                                "description": body,
+                                "summary": summary,
+                                "submission_deadline": deadline,
+                                "timeline": {
+                                    "status": "ACCEPTING_SUBMISSIONS"
+                                }
+                            }
+                        },
                         gas: BOATLOAD_OF_GAS,
                         deposit: utils.format.parseNearAmount("0")!,
                     }
@@ -36,9 +53,10 @@ export const AddRFP = ({ props: { body, label } }: { props: any }) => {
         }).then((nextMessages: any) => {
             setIsLoading(false)
         }).catch((err) => {
+            console.log("err", err)
             setIsLoading(false)
         });
-    
+
     }
     return (
 
